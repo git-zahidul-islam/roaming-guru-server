@@ -59,7 +59,27 @@ async function run() {
             res.send(result)
         })
 
-
+        app.put('/travels/:id', async(req,res) =>{
+            const id = req.params.id;
+            const filter = {_id : new ObjectId(id)};
+            const options = { upsert: true };
+            const updateTravels = req.body;
+            const update = {
+                $set:{
+                    image: updateTravels.image,
+                    tourists_spot_name: updateTravels.tourists_spot_name,
+                    country_Name: updateTravels.country_Name,
+                    location: updateTravels.location,
+                    average_cost: updateTravels.average_cost,
+                    seasonality: updateTravels.seasonality,
+                    travel_time: updateTravels.travel_time,
+                    totalVisitors: updateTravels.totalVisitors,
+                    description: updateTravels.description
+                }
+            }
+            const result = await travelCollection.updateOne(filter,update,options)
+            res.send(result)
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
