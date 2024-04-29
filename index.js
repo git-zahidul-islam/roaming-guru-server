@@ -34,6 +34,26 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/travels/:country_Name', async (req, res) => {
+            const country = req.params.country_Name;
+            const query = { country_Name: country };
+            const result = await travelCollection.find(query).toArray();
+            res.send(result);
+        });
+
+        app.get('/homeTravel', async(req,res) =>{
+            const cursor = homeCollection.find()
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+
+        app.get('/homeTravel/:country_Name', async (req, res) => {
+            const country = req.params.country_Name;
+            const query = { country_Name: country };
+            const result = await homeCollection.find(query).toArray();
+            res.send(result);
+        });
+
         app.get('/travels/:id',async(req,res) =>{
             const id = req.params.id;
             const query = {_id : new ObjectId(id)}
