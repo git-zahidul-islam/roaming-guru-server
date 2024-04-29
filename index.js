@@ -26,6 +26,7 @@ async function run() {
         await client.connect();
         
         const travelCollection = client.db('travelDB').collection('travel')
+        const homeCollection = client.db('travelDB').collection('homeTravel')
 
         app.get('/travels', async(req,res) =>{
             const cursor = travelCollection.find()
