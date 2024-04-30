@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000;
@@ -9,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 // mongodb added here
 
-const uri = "mongodb+srv://zahidulislamhere:7eGxK7yanCZggzc0@cluster0.bq1drti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bq1drti.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -34,23 +35,16 @@ async function run() {
             res.send(result)
         })
 
-        app.get('/travels/:country_Name', async (req, res) => {
-            const country = req.params.country_Name;
-            const query = { country_Name: country };
-            const result = await travelCollection.find(query).toArray();
-            res.send(result);
-        });
-
         app.get('/homeTravel', async(req,res) =>{
             const cursor = homeCollection.find()
             const result = await cursor.toArray()
             res.send(result)
         })
 
-        app.get('/homeTravel/:country_Name', async (req, res) => {
-            const country = req.params.country_Name;
-            const query = { country_Name: country };
-            const result = await homeCollection.find(query).toArray();
+        app.get('/travels/countryName/:countryName', async (req, res) => {
+            const countryName = req.params.countryName;
+            const query = { country_Name: countryName };
+            const result = await travelCollection.find(query).toArray();
             res.send(result);
         });
 
